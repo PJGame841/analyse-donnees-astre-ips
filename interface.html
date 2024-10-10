@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Interface</title>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"
+			integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+	</head>
+	<body>
+		<h1>Calculateur IPS/ASTRE</h1>
+
+		<h2>Hypothèses</h2>
+		<div id="hypotheses"></div>
+		<!-- <button onclick="showNewHypothesis()">Ajouter une hypothèse</button> -->
+		<button onclick="updateQuestions()">Mettre à jour les questions</button>
+
+		<h2>Calculateur</h2>
+
+		<button onclick="calculResults()">Calculer</button>
+
+		<script>
+			let questions = [];
+			function fetchQuestions() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+						questions = JSON.parse(this.responseText);
+					}
+				};
+				xhttp.open("GET", "http://localhost:3000/questions", true);
+				xhttp.send();
+			}
+
+			let hypotheses = [];
+			function fetchHypotheses() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+						hypotheses = JSON.parse(this.responseText);
+
+						const hypothesesDiv = document.getElementById("hypotheses");
+						hypotheses.forEach((hypothesis) => {
+							const hypothesisDiv = document.createElement("div");
+							hypothesisDiv.classList.add("hypothesis");
+
+							const pId = document.createElement("p");
+							pId.textContent = `Question: ${
+								questions.find((q) => q.id == hypothesis.id).question
+							}`;
+							hypothesisDiv.appendChild(pId);
+
+							if (hypothesis.answer) {
+								const pAnwser = document.createElement("p");
+								pAnwser.textContent = `Réponse : ${hypothesis.answer}`;
+								hypothesisDiv.appendChild(pAnwser);
+							} else if (hypothesis.not_more_than) {
+								const pAnwser = document.createElement("p");
+								pAnwser.textContent = `Réponse : Au plus ${hypothesis.not_more_than}`;
+								hypothesisDiv.appendChild(pAnwser);
+							}
+
+							const labelPonderation = document.createElement("label");
+							labelPonderation.htmlFor = `ponderation-${hypothesis.id}`;
+							labelPonderation.textContent = "Ponderation";
+							hypothesisDiv.appendChild(labelPonderation);
+
+							const inputPonderation = document.createElement("input");
+							inputPonderation.id = `ponderation-${hypothesis.id}`;
+							inputPonderation.type = "number";
+							inputPonderation.value = hypothesis.ponderation;
+							hypothesisDiv.appendChild(inputPonderation);
+
+							const labelDegree = document.createElement("label");
+							labelDegree.htmlFor = `degree-${hypothesis.id}`;
+							labelDegree.textContent = "Degré d'importance";
+							hypothesisDiv.appendChild(labelDegree);
+
+							const inputDegree = document.createElement("input");
+							inputDegree.id = `degree-${hypothesis.id}`;
+							inputDegree.type = "number";
+							inputDegree.value = hypothesis.degree;
+							hypothesisDiv.appendChild(inputDegree);
+
+							hypothesesDiv.appendChild(hypothesisDiv);
+						});
+					}
+				};
+				xhttp.open("GET", "http://localhost:3000/hypotheses", true);
+				xhttp.send();
+			}
+			document.addEventListener("DOMContentLoaded", () => {
+				fetchQuestions();
+				fetchHypotheses();
+			});
+
+			function showNewHypothesis() {
+				const hypothesesDiv = document.getElementById("hypotheses");
+				const hypothesisDiv = document.createElement("div");
+				hypothesisDiv.classList.add("hypothesis");
+
+				const selectQuestion = document.createElement("select");
+				selectQuestion.id = "question";
+				questions.forEach((question) => {
+					const option = document.createElement("option");
+					option.value = question.id;
+					option.textContent = question.question;
+					selectQuestion.appendChild(option);
+				});
+				hypothesisDiv.appendChild(selectQuestion);
+
+				const inputAnswer = document.createElement("input");
+				inputAnswer.id = "answer";
+				inputAnswer.type = "text";
+				inputAnswer.placeholder = "Réponse";
+				hypothesisDiv.appendChild(inputAnswer);
+
+				const inputPonderation = document.createElement("input");
+				inputPonderation.id = "ponderation";
+				inputPonderation.type = "number";
+				inputPonderation.placeholder = "Ponderation";
+				hypothesisDiv.appendChild(inputPonderation);
+
+				const inputDegree = document.createElement("input");
+				inputDegree.id = "degree";
+				inputDegree.type = "number";
+				inputDegree.placeholder = "Degré d'importance";
+				hypothesisDiv.appendChild(inputDegree);
+
+				hypothesesDiv.appendChild(hypothesisDiv);
+			}
+
+			function updateHypothesis() {
+				var newHypotheses = [];
+				document.querySelectorAll(".hypothesis").forEach((hypothesisDiv) => {
+					const id = hypothesisDiv.querySelector("select").value;
+					const answer = hypothesisDiv.querySelector("input[type=text]").value;
+					const not_more_than =
+						hypothesisDiv.querySelector("input[type=number]").value;
+					const ponderation =
+						hypothesisDiv.querySelector("input[type=number]").value;
+					const degree =
+						hypothesisDiv.querySelector("input[type=number]").value;
+					newHypotheses.push({
+						id,
+						answer,
+						not_more_than,
+						ponderation,
+						degree,
+					});
+				});
+
+				var questions = document.getElementById("questions").value;
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+						console.log(this.responseText);
+					}
+				};
+				xhttp.open("PUT", "http://localhost:3000/hypotheses", true);
+				xhttp.send(newHypotheses);
+				fetchHypotheses();
+			}
+
+			function calculResults() {
+				updateHypothesis();
+
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+						const results = JSON.parse(this.responseText);
+						const ctx = document.createElement("canvas");
+						document.body.appendChild(ctx);
+						const myChart = new Chart(ctx, {
+							type: "bar",
+							data: {
+								labels: results.map((result) => result.student),
+								datasets: [
+									{
+										label: "Résultats",
+										data: results.map((result) => result.score),
+										backgroundColor: results.map((result) =>
+											result.result > 0 ? "green" : "red"
+										),
+									},
+								],
+							},
+						});
+					}
+				};
+				xhttp.open("GET", "http://localhost:3000/results", true);
+				xhttp.send();
+			}
+		</script>
+
+		<style>
+			.hypothesis {
+				display: flex;
+				align-items: center;
+			}
+		</style>
+	</body>
+</html>

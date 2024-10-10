@@ -1,0 +1,86 @@
+[
+	{
+		"id": 1,
+		"question": "Numero etudiant"
+	},
+	{
+		"id": 2,
+		"question": "2. Quel(s) type(s) de film aimes-tu ?"
+	},
+	{
+		"id": 3,
+		"question": "3. Savais-tu déjà ce que tu voulais faire avant de venir à l’ENSIM ?"
+	},
+	{
+		"id": 4,
+		"question": "4. Qu’est-ce qui te motive à venir en cours ?"
+	},
+	{
+		"id": 5,
+		"question": "5. Quelle(s) association(s) et/ou événement(s) t’intéressent ?"
+	},
+	{
+		"id": 6,
+		"question": "6. Quelles spécialités as-tu prises au BAC ?"
+	},
+	{
+		"id": 7,
+		"question": "7. Quelle(s) est/sont ta/tes formation(s) antérieure(s) ?"
+	},
+	{
+		"id": 8,
+		"question": "8. Quelles étaient tes spécialités (Quel BTS, BUT, Prépa) ?"
+	},
+	{
+		"id": 9,
+		"question": "9. Envisages-tu l’auto-entreprenariat ?"
+	},
+	{
+		"id": 10,
+		"question": "10. Dans la liste d’entreprise ci-dessous, lesquelles pourraient t’intéresser ?"
+	},
+	{
+		"id": 11,
+		"question": "11. Es-tu plutôt : (3 choix maximum)"
+	},
+	{
+		"id": 12,
+		"question": "12. Quels sont les langages informatiques que tu as pratiqué?"
+	},
+	{
+		"id": 13,
+		"question": "13. Sur quels réseaux sociaux es-tu actif ?"
+	},
+	{
+		"id": 14,
+		"question": "14. Lorsque tu fais face à une difficulté, comment cherches-tu la réponse (classe les de la plus à la moins importante)?"
+	},
+	{
+		"id": 15,
+		"question": "15. Petit, quel était ton métier de rêve ?"
+	},
+	{
+		"id": 16,
+		"question": "16. Quelle palette de couleurs préfères-tu ?"
+	},
+	{
+		"id": 17,
+		"question": "17. Qu’est-ce que tu as sur ton bureau ?"
+	},
+	{
+		"id": 18,
+		"question": "18. Quel(s) système(s) d’exploitation utilises-tu ?"
+	},
+	{
+		"id": 19,
+		"question": "19. À quelle fréquence codes-tu pour des projets personnels ?"
+	},
+	{
+		"id": 20,
+		"question": "20. Quelles activités te passionnent le plus? (3 choix maximum)"
+	},
+	{
+		"id": 21,
+		"question": "21. Envisagez vous un travail sans code/programmation plus tard ?"
+	}
+]
