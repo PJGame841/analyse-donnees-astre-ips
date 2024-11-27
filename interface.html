@@ -4,12 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Interface</title>
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"
-			integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg=="
-			crossorigin="anonymous"
-			referrerpolicy="no-referrer"
-		></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	</head>
 	<body>
 		<h1>Calculateur IPS/ASTRE</h1>
@@ -51,40 +46,48 @@
 							const pId = document.createElement("p");
 							pId.textContent = `Question: ${
 								questions.find((q) => q.id == hypothesis.id).question
-							}`;
+							} `;
 							hypothesisDiv.appendChild(pId);
 
 							if (hypothesis.answer) {
 								const pAnwser = document.createElement("p");
-								pAnwser.textContent = `Réponse : ${hypothesis.answer}`;
+								pAnwser.textContent = `Réponse : ${hypothesis.answer} `;
 								hypothesisDiv.appendChild(pAnwser);
 							} else if (hypothesis.not_more_than) {
 								const pAnwser = document.createElement("p");
-								pAnwser.textContent = `Réponse : Au plus ${hypothesis.not_more_than}`;
+								pAnwser.textContent = `Réponse : Au plus ${hypothesis.not_more_than} `;
 								hypothesisDiv.appendChild(pAnwser);
 							}
 
+							const divPonderation = document.createElement("div");
+
 							const labelPonderation = document.createElement("label");
 							labelPonderation.htmlFor = `ponderation-${hypothesis.id}`;
-							labelPonderation.textContent = "Ponderation";
-							hypothesisDiv.appendChild(labelPonderation);
+							labelPonderation.textContent = "Ponderation ";
+							divPonderation.appendChild(labelPonderation);
 
 							const inputPonderation = document.createElement("input");
 							inputPonderation.id = `ponderation-${hypothesis.id}`;
 							inputPonderation.type = "number";
 							inputPonderation.value = hypothesis.ponderation;
-							hypothesisDiv.appendChild(inputPonderation);
+							divPonderation.appendChild(inputPonderation);
+
+							hypothesisDiv.appendChild(divPonderation);
+
+							const divDegree = document.createElement("div");
 
 							const labelDegree = document.createElement("label");
 							labelDegree.htmlFor = `degree-${hypothesis.id}`;
-							labelDegree.textContent = "Degré d'importance";
-							hypothesisDiv.appendChild(labelDegree);
+							labelDegree.textContent = "Degré d'importance ";
+							divDegree.appendChild(labelDegree);
 
 							const inputDegree = document.createElement("input");
 							inputDegree.id = `degree-${hypothesis.id}`;
 							inputDegree.type = "number";
 							inputDegree.value = hypothesis.degree;
-							hypothesisDiv.appendChild(inputDegree);
+							divDegree.appendChild(inputDegree);
+
+							hypothesisDiv.appendChild(divDegree);
 
 							hypothesesDiv.appendChild(hypothesisDiv);
 						});
@@ -167,7 +170,7 @@
 			}
 
 			function calculResults() {
-				updateHypothesis();
+				//updateHypothesis();
 
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function () {
@@ -198,6 +201,14 @@
 		</script>
 
 		<style>
+			.hypothesis p {
+				width: 40%;
+			}
+
+			.hypothesis div {
+				margin-right: 20px;
+			}
+
 			.hypothesis {
 				display: flex;
 				align-items: center;
